@@ -100,6 +100,7 @@ function App() {
         return response.json();
       })
       .then(result => {
+        console.log('API Response:', result);
         const faceBoxes = calculateFaceLocation(result);
         displayFaceBox(faceBoxes);
       })
