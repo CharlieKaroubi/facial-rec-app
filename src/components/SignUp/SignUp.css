@@ -1,0 +1,8 @@
+.su:hover {
+    cursor: pointer;
+}
+
+.custom-width {
+    width: 60%; /* Adjust this value as needed */
+    max-width: 800px; /* Adjust this value as needed */
+}

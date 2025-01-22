@@ -1,11 +1,11 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'; 
 
-const SignIn = () => {
+const SignIn = ({onRouteChange}) => {
     return (
-        <article class="br3 ba dark-gray b--black-10 mv5 w-100 w-50-m w-25-l mw5 shadow-5 center"> 
+        <article className="br3 ba dark-gray b--black-10 mv6 w-100 w-50-m w-25-l mw5 shadow-5 center" style={{width:'50%',maxWidth:'300px'}}> 
             <main className="pa4 black-80" style={{color:'white'}}>
-                <form className="measure">
+                <div className="measure">
                     <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
                         <legend className="f2 fw6 ph0 mh0 mb3 lora">FaceDex</legend>
                         <div className="mt3">
@@ -18,12 +18,12 @@ const SignIn = () => {
                         </div>
                     </fieldset>
                     <div className="">
-                        <input className="b white ph3 pv2 input-reset ba b--white bg-transparent grow pointer f6 dib" type="submit" value="Sign in" />
+                        <input onClick={()=>onRouteChange('home')} className="b white ph3 pv2 input-reset ba b--white bg-transparent grow pointer f6 dib" type="submit" value="Sign in" />
                     </div>
                     <div className="lh-copy mt3">
-                        <a href="#0" className="f6 link w-30 h-30 dim white db center">Sign up</a>
+                        <p onClick={()=>onRouteChange('signup')} className="b ma2 white ph3 pv2  b--white bg-transparent grow pointer f6 ">Sign Up</p>
                     </div>
-                </form>
+                </div>
             </main>
         </article>
     );

@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Navigation from './components/Navigation/Navigation';
 import Logo from './components/Logo/Logo';
 import SignIn from './components/SignIn/SignIn';
+import SignUp from './components/SignUp/SignUp';
 import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
 import Rank from './components/Rank/Rank';
 import FaceRecognition from './components/FaceRecognition/FaceRecognition';
@@ -114,18 +115,25 @@ function App() {
     });
   }
 
+  const onRouteChange = (event) => {
+    setRoute(event);
+  }
+
   return (
     <div className="App">
-      <Navigation />
-      {route ==='signin'
-        ?<SignIn />
-        :<div>
+      {route === 'signin' ? (
+        <SignIn onRouteChange={onRouteChange} />
+      ) : route === 'signup' ? (
+        <SignUp onRouteChange={onRouteChange} />
+      ) : route === 'home' ? (
+        <div>
+          <Navigation onRouteChange={onRouteChange} />
           <Logo />
           <Rank />
-          <ImageLinkForm onInputChange={onInputChange} onButtonSubmit={onButtonSubmit}/>
-          <FaceRecognition imageURL={imageURL} boxes={boxes}/>
+          <ImageLinkForm onInputChange={onInputChange} onButtonSubmit={onButtonSubmit} />
+          <FaceRecognition imageURL={imageURL} boxes={boxes} />
         </div>
-      }
+      ) : null}
     </div>
   );
 }

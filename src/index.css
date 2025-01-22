@@ -24,3 +24,7 @@ button {
   font-weight: 500;
   font-style: italic;
 }
+
+.su:hover {
+  cursor: pointer;
+}
