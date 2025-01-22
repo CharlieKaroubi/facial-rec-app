@@ -2,6 +2,7 @@ import './App.css';
 import React, { useState } from 'react';
 import Navigation from './components/Navigation/Navigation';
 import Logo from './components/Logo/Logo';
+import SignIn from './components/SignIn/SignIn';
 import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
 import Rank from './components/Rank/Rank';
 import FaceRecognition from './components/FaceRecognition/FaceRecognition';
@@ -44,6 +45,7 @@ function App() {
   const [input, setInput] = useState('');
   const [imageURL, setImageURL] = useState('');
   const [boxes, setBoxes] = useState([]);
+  const [route, setRoute] = useState('signin');
 
   const onInputChange = (event) => {
     setInput(event.target.value);
@@ -69,6 +71,9 @@ function App() {
   }
 
   const onButtonSubmit = () => {
+    if (!input) {
+      return;
+    }
     setImageURL(input);
 
     const updatedRaw = JSON.stringify({
@@ -112,10 +117,15 @@ function App() {
   return (
     <div className="App">
       <Navigation />
-      <Logo />
-      <Rank />
-      <ImageLinkForm onInputChange={onInputChange} onButtonSubmit={onButtonSubmit}/>
-      <FaceRecognition imageURL={imageURL} boxes={boxes}/>
+      {route ==='signin'
+        ?<SignIn />
+        :<div>
+          <Logo />
+          <Rank />
+          <ImageLinkForm onInputChange={onInputChange} onButtonSubmit={onButtonSubmit}/>
+          <FaceRecognition imageURL={imageURL} boxes={boxes}/>
+        </div>
+      }
     </div>
   );
 }

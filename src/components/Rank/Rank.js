@@ -2,7 +2,7 @@ import React from 'react';
 
 const Rank = () => {
     return (
-        <div className = "lora">
+        <div>
             <div className='white f1'>
                 {'Hey, Charlie!'}
             </div>
