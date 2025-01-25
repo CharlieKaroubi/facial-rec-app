@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navigation from './components/Navigation/Navigation';
 import Logo from './components/Logo/Logo';
 import SignIn from './components/SignIn/SignIn';
@@ -47,6 +47,17 @@ function App() {
   const [imageURL, setImageURL] = useState('');
   const [boxes, setBoxes] = useState([]);
   const [route, setRoute] = useState('signin');
+  const [user, setUser] = useState({});
+
+  const loadUser = (data) => {
+    setUser({... data});
+  }
+
+  useEffect(() => {
+    fetch('http://localhost:3000')
+      .then(response => response.json())
+      .then(data => console.log(data));
+  }, []);
 
   const onInputChange = (event) => {
     setInput(event.target.value);
@@ -72,6 +83,7 @@ function App() {
   }
 
   const onButtonSubmit = () => {
+    displayFaceBox([]);
     if (!input) {
       return;
     }
@@ -106,7 +118,27 @@ function App() {
         return response.json();
       })
       .then(result => {
-        console.log('API Response:', result);
+        if (result.status.description === 'Ok') {
+          fetch('http://localhost:3000/image', {
+            method: 'put',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+              id: user.id
+            })
+          })
+            .then(response => {
+              if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+              }
+              return response.json();
+            })
+            .then(count => {
+              setUser({ ...user, entries: count });
+            })
+            .catch(error => {
+              console.error('There was a problem with the fetch operation:', error);
+            });
+        }
         const faceBoxes = calculateFaceLocation(result);
         displayFaceBox(faceBoxes);
       })
@@ -119,17 +151,19 @@ function App() {
     setRoute(event);
   }
 
+  console.log('user', user.fname);
+
   return (
     <div className="App">
       {route === 'signin' ? (
-        <SignIn onRouteChange={onRouteChange} />
+        <SignIn onRouteChange={onRouteChange} loadUser={loadUser} />
       ) : route === 'signup' ? (
-        <SignUp onRouteChange={onRouteChange} />
+        <SignUp onRouteChange={onRouteChange} loadUser={loadUser}/>
       ) : route === 'home' ? (
         <div>
           <Navigation onRouteChange={onRouteChange} />
           <Logo />
-          <Rank />
+          <Rank user={user}/>
           <ImageLinkForm onInputChange={onInputChange} onButtonSubmit={onButtonSubmit} />
           <FaceRecognition imageURL={imageURL} boxes={boxes} />
         </div>
