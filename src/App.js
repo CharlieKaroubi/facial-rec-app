@@ -53,6 +53,8 @@ function App() {
     setUser({... data});
   }
 
+  console.log('user', user);
+
   useEffect(() => {
     fetch('http://localhost:3000')
       .then(response => response.json())
@@ -151,8 +153,6 @@ function App() {
     setRoute(event);
   }
 
-  console.log('user', user.fname);
-
   return (
     <div className="App">
       {route === 'signin' ? (
@@ -161,7 +161,7 @@ function App() {
         <SignUp onRouteChange={onRouteChange} loadUser={loadUser}/>
       ) : route === 'home' ? (
         <div>
-          <Navigation onRouteChange={onRouteChange} />
+          <Navigation onRouteChange={onRouteChange} loadUser={loadUser}/>
           <Logo />
           <Rank user={user}/>
           <ImageLinkForm onInputChange={onInputChange} onButtonSubmit={onButtonSubmit} />
